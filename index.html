@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>思维模型馆 · 跨学科心智模型迁移学习站</title>
+<style>
+:root{
+  --paper:#F5F1E6;        /* 纸质感米白 */
+  --paper2:#FBFAF4;
+  --card:#FFFFFF;
+  --line:#E3DDCB;
+  --line2:#D2C9B2;
+  --ink:#1C1B18;          /* 墨黑正文 */
+  --dim:#6E6A5E;
+  --dim2:#A29B88;
+  --gold:#A8842C;         /* 单一金色强调 */
+  --gold2:#C0A255;
+  --goldS:#F3EDDC;        /* 金色 8% */
+  --goldS2:#E8DFC4;
+  --serif:"Songti SC","Noto Serif SC","Source Han Serif SC",Georgia,"Times New Roman",serif;
+  --mono:Consolas,"SFMono-Regular",Menlo,"Courier New",monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);
+  font-family:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;
+  font-size:14px;line-height:1.85;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:0 26px 90px}
+a{color:var(--gold)}
+button{font-family:inherit;font-size:13px;color:var(--ink);cursor:pointer;background:var(--card);
+  border:1px solid var(--line2);border-radius:2px;padding:7px 16px;transition:.16s;letter-spacing:.5px}
+button:hover{border-color:var(--gold);color:var(--gold)}
+button.primary{background:var(--gold);border-color:var(--gold);color:#FBF9F2;font-weight:600}
+button.primary:hover{background:var(--gold2);border-color:var(--gold2);color:#fff}
+button.ghost{background:transparent;border-color:var(--line2);color:var(--dim)}
+button.sm{padding:4px 12px;font-size:12px}
+button:disabled{opacity:.38;cursor:not-allowed}
+button:disabled:hover{border-color:var(--line2);color:var(--ink)}
+textarea,input[type=text]{font-family:inherit;font-size:13.5px;line-height:1.85;color:var(--ink);width:100%;
+  background:var(--paper2);border:1px solid var(--line);border-radius:2px;padding:11px 13px;outline:none;
+  transition:.18s;resize:vertical}
+textarea:focus,input[type=text]:focus{border-color:var(--gold);background:#fff}
+textarea::placeholder,input::placeholder{color:var(--dim2)}
+.mono{font-family:var(--mono)}
+.serif{font-family:var(--serif)}
+
+/* ---- header ---- */
+header{position:sticky;top:0;z-index:40;background:rgba(245,241,230,.95);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line)}
+.hd{max-width:1040px;margin:0 auto;padding:13px 26px 10px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.logo{display:flex;align-items:baseline;gap:10px}
+.logo h1{margin:0;font-family:var(--serif);font-size:19px;letter-spacing:3px;color:var(--ink);font-weight:700}
+.logo .en{font-family:var(--mono);font-size:9.5px;letter-spacing:3.5px;color:var(--gold)}
+.hd .sp{flex:1}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav button{background:transparent;border-color:transparent;color:var(--dim);font-size:13px;padding:6px 13px}
+.nav button:hover{color:var(--gold)}
+.nav button.on{color:var(--gold);border-color:var(--line2);background:var(--card);font-weight:600}
+.kicker{font-family:var(--mono);font-size:10px;letter-spacing:3px;color:var(--dim2)}
+
+/* ---- hero ---- */
+.hero{padding:52px 0 26px;border-bottom:1px solid var(--line)}
+.hero h2{margin:0 0 14px;font-family:var(--serif);font-size:29px;line-height:1.55;font-weight:700;letter-spacing:1px}
+.hero h2 em{font-style:normal;color:var(--gold)}
+.hero p{margin:0;color:var(--dim);max-width:700px}
+.pledge{margin:26px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.pledge div{background:var(--card);border:1px solid var(--line);border-top:2px solid var(--gold);padding:13px 15px}
+.pledge b{display:block;font-family:var(--mono);font-size:15px;color:var(--gold);letter-spacing:1px}
+.pledge span{font-size:12.5px;color:var(--dim)}
+
+/* ---- layout ---- */
+section.mod{display:none;padding:34px 0 0}
+section.mod.on{display:block}
+.mhead{display:flex;align-items:flex-end;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.mhead h3{margin:0;font-family:var(--serif);font-size:20px;letter-spacing:1.5px}
+.mhead .no{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:2px}
+.mdesc{color:var(--dim);font-size:13px;margin:0 0 20px;max-width:760px}
+.rule{height:1px;background:var(--line);margin:26px 0}
+.hint{font-size:12.5px;color:var(--dim2);line-height:1.8}
+
+/* ---- 卡片库 ---- */
+.filters{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.filters input[type=text]{max-width:250px;padding:7px 12px}
+.chip{font-size:12px;border:1px solid var(--line2);border-radius:20px;padding:3px 12px;background:var(--card);
+  color:var(--dim);cursor:pointer;white-space:nowrap}
+.chip:hover{border-color:var(--gold);color:var(--gold)}
+.chip.on{border-color:var(--gold);color:var(--gold);background:var(--goldS);font-weight:600}
+.count{font-family:var(--mono);font-size:11.5px;color:var(--dim2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:13px}
+.mc{background:var(--card);border:1px solid var(--line);padding:16px 17px 15px;cursor:pointer;transition:.16s;
+  position:relative;min-height:132px}
+.mc:hover{border-color:var(--gold);box-shadow:0 1px 0 var(--gold) inset}
+.mc .idx{font-family:var(--mono);font-size:10.5px;color:var(--dim2);letter-spacing:1px}
+.mc h4{margin:3px 0 4px;font-family:var(--serif);font-size:16.5px;letter-spacing:.5px;font-weight:700}
+.mc .en{font-family:var(--mono);font-size:10.5px;color:var(--dim2);letter-spacing:.6px;margin-bottom:8px}
+.mc .disc{font-size:12px;color:var(--gold);border-top:1px solid var(--line);padding-top:8px;margin-top:8px}
+.mc .tag{position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:9.5px;letter-spacing:1px;
+  border:1px solid var(--line2);border-radius:2px;padding:1px 6px;color:var(--dim2)}
+.mc .tag.done{border-color:var(--gold);color:var(--gold);background:var(--goldS)}
+.mc.locked{cursor:default;background:transparent;border-style:dashed}
+.mc.locked:hover{border-color:var(--line);box-shadow:none}
+.mc.locked h4{color:var(--dim)}
+
+/* 卡面展开 */
+.sheet{background:var(--card);border:1px solid var(--line2);border-top:3px solid var(--gold);padding:26px 30px 28px;
+  margin-top:16px}
+.sheet .top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px}
+.sheet .top h3{margin:0;font-family:var(--serif);font-size:23px;letter-spacing:1px}
+.sheet .top .en{font-family:var(--mono);font-size:11px;color:var(--dim2);letter-spacing:1px}
+.sheet .top .sp{flex:1}
+.field{display:grid;grid-template-columns:70px 1fr;gap:14px;padding:11px 0;border-bottom:1px dotted var(--line)}
+.field:last-child{border-bottom:none}
+.field dt{font-size:12px;color:var(--gold);letter-spacing:1px;padding-top:2px}
+.field dd{margin:0;font-size:13.5px;line-height:1.85}
+.field dd.cases{padding:0;margin:0;list-style:none}
+.field dd.cases li{margin-bottom:7px}
+.field dd.cases .dom{font-family:var(--mono);font-size:11px;color:var(--gold);background:var(--goldS);
+  padding:1px 7px;margin-right:8px;border-radius:2px;white-space:nowrap}
+.field dd.bound{color:var(--ink);border-left:2px solid var(--gold);padding-left:12px}
+.rel{display:inline-block;font-size:12.5px;border:1px solid var(--line2);border-radius:2px;padding:2px 9px;
+  margin:0 6px 6px 0;background:var(--paper2);cursor:pointer}
+.rel:hover{border-color:var(--gold);color:var(--gold)}
+.rel i{font-style:normal;color:var(--dim2);font-family:var(--mono);font-size:10.5px}
+.wc{font-family:var(--mono);font-size:11px;color:var(--dim2);text-align:right;padding-top:10px}
+
+/* ---- 每日一练 ---- */
+.prac{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:820px){.prac{grid-template-columns:1fr}}
+.box{background:var(--card);border:1px solid var(--line);padding:18px 20px}
+.box .lab{font-family:var(--mono);font-size:10.5px;letter-spacing:2px;color:var(--gold);margin-bottom:9px}
+.box h4{margin:0 0 8px;font-family:var(--serif);font-size:18px;letter-spacing:.5px}
+.box .mech{font-size:13px;color:var(--dim);border-left:2px solid var(--line2);padding-left:12px;margin:10px 0 0}
+.ev{font-size:13.5px;line-height:1.85}
+.ev .src{font-family:var(--mono);font-size:11px;color:var(--dim2);display:block;margin-top:8px}
+.timerbar{display:flex;align-items:center;gap:12px;margin:16px 0 12px;flex-wrap:wrap}
+.timerbar .t{font-family:var(--mono);font-size:19px;color:var(--gold);letter-spacing:1px}
+.timerbar .bar{flex:1;min-width:120px;height:2px;background:var(--line);}
+.timerbar .bar i{display:block;height:100%;background:var(--gold);width:100%}
+.checks{list-style:none;padding:0;margin:12px 0 0;font-size:12.5px;color:var(--dim)}
+.checks li{padding-left:16px;position:relative;margin-bottom:5px}
+.checks li:before{content:"—";position:absolute;left:0;color:var(--gold)}
+.arch{margin-top:24px}
+.arch h5{margin:0 0 10px;font-family:var(--serif);font-size:15px;letter-spacing:1px}
+.arow{border:1px solid var(--line);background:var(--card);padding:13px 16px;margin-bottom:9px}
+.arow .hd2{display:flex;gap:10px;flex-wrap:wrap;align-items:baseline;font-size:12px;color:var(--dim2);
+  font-family:var(--mono);margin-bottom:6px}
+.arow .hd2 b{color:var(--gold);font-family:inherit;letter-spacing:.5px}
+.arow p{margin:0;font-size:13px;line-height:1.85;white-space:pre-wrap}
+.empty{border:1px dashed var(--line2);padding:22px;text-align:center;color:var(--dim2);font-size:13px}
+
+/* ---- 图谱 ---- */
+.graphwrap{background:var(--card);border:1px solid var(--line);padding:8px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--dim);margin-top:12px}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:22px;height:0;border-top:1.5px solid var(--gold)}
+.legend i.dash{border-top-style:dashed;border-color:var(--dim2)}
+.node{cursor:pointer}
+.node rect{transition:.16s}
+.node text{font-size:12.5px;fill:var(--ink);text-anchor:middle;font-family:"PingFang SC","Microsoft YaHei",sans-serif}
+.node:hover rect{fill:var(--goldS2)!important;stroke:var(--gold)!important}
+.node.hi rect{stroke:var(--gold);stroke-width:1.6}
+.edge{fill:none}
+.edgeLbl{font-size:10.5px;fill:var(--dim2);font-family:var(--mono)}
+.chain{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chain button{font-size:12px}
+
+/* ---- 组合 ---- */
+.combo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:820px){.combo{grid-template-columns:1fr}}
+.pick{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.pick .chip.on{background:var(--gold);border-color:var(--gold);color:#FBF9F2}
+.crow{border:1px solid var(--line);background:var(--card);padding:16px 18px;margin-bottom:10px}
+.crow .t{font-family:var(--serif);font-size:16px;margin-bottom:6px}
+.crow .m{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.5px;margin-bottom:8px}
+.crow p{margin:0 0 6px;font-size:13px;line-height:1.85;white-space:pre-wrap}
+.crow .d{font-family:var(--mono);font-size:10.5px;color:var(--dim2)}
+
+/* toast */
+#toast{position:fixed;left:50%;bottom:38px;transform:translateX(-50%) translateY(14px);opacity:0;
+  background:var(--ink);color:var(--paper);font-size:13px;padding:9px 20px;border-radius:2px;
+  transition:.22s;pointer-events:none;z-index:99;letter-spacing:.5px}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--dim2);
+  display:flex;gap:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd">
+    <div class="logo">
+      <h1>思维模型馆</h1><span class="en">MENTAL MODELS</span>
+    </div>
+    <span class="kicker">认知跃迁</span>
+    <span class="sp"></span>
+    <div class="nav">
+      <button class="on" data-tab="lib">① 模型卡片库</button>
+      <button data-tab="prac">② 今日一练</button>
+      <button data-tab="graph">③ 关系图谱</button>
+      <button data-tab="combo">④ 我的组合</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h2>不止介绍模型，而是逼出<em>「这个模型还能解释什么」</em>。</h2>
+    <p>每张卡 ≤ 400 字、必写不适用边界、3 个跨学科可核查案例。每周练一次迁移，认知才真正跃迁 —— 这里不做励志，只做结构。</p>
+    <div class="pledge">
+      <div><b>≤ 400 字</b><span>单卡正文上限，去掉所有修饰</span></div>
+      <div><b>≤ 5 分钟</b><span>每日一练：1 个模型 + 1 个新闻事件</span></div>
+      <div><b>≤ 2 秒</b><span>关系图谱首屏静态渲染</span></div>
+      <div><b>100 / 10</b><span>索引 100 条 · 已完稿示范卡 10 张</span></div>
+    </div>
+  </div>
+
+  <!-- ① 卡片库 -->
+  <section class="mod on" id="lib">
+    <div class="mhead"><span class="no">MODULE 01</span><h3>模型卡片库</h3></div>
+    <p class="mdesc">共登记 100 个模型条目。已完稿的 10 张可展开完整卡面；其余条目只登记名称与原生学科，按同一模板逐张补齐，不做半成品填充。</p>
+    <div class="filters">
+      <input type="text" id="q" placeholder="搜索模型名 / 学科">
+      <span class="chip on" data-d="all">全部 100</span>
+      <span class="chip" data-d="已完稿">已完稿 10</span>
+      <span class="chip" data-d="经济学">经济学</span>
+      <span class="chip" data-d="物理学">物理学</span>
+      <span class="chip" data-d="生物学">生物学</span>
+      <span class="chip" data-d="认知">认知</span>
+      <span class="chip" data-d="工程">工程</span>
+      <span class="count" id="cnt"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div id="sheet"></div>
+  </section>
+
+  <!-- ② 每日一练 -->
+  <section class="mod" id="prac">
+    <div class="mhead"><span class="no">MODULE 02</span><h3>今天这个模型能解释什么</h3></div>
+    <p class="mdesc">随机抽 1 个模型 + 1 个公开事件。用模型的机制句解释这个事件里的哪一环。5 分钟，写到能被人反驳为止。</p>
+    <div class="prac">
+      <div class="box">
+        <div class="lab">随机模型</div>
+        <h4 id="pName">—</h4>
+        <div class="en mono" style="font-size:11px;color:var(--dim2)" id="pEn"></div>
+        <p class="mech" id="pMech"></p>
+        <div class="hint" style="margin-top:10px" id="pBound"></div>
+      </div>
+      <div class="box">
+        <div class="lab">当下事件（公开报道 / 或粘贴今天的头条）</div>
+        <div class="ev" id="pEv">—</div>
+        <input type="text" id="pEvOwn" placeholder="换成你今天看到的一条新闻（可选）" style="margin-top:12px">
+      </div>
+    </div>
+    <div class="timerbar">
+      <button class="sm" id="draw">换一组</button>
+      <button class="sm primary" id="start">开始 5 分钟</button>
+      <span class="t mono" id="clock">05:00</span>
+      <span class="bar"><i id="tbar"></i></span>
+      <span class="count" id="tstate">未开始</span>
+    </div>
+    <textarea id="pAns" rows="6" placeholder="这个模型解释了事件中的哪一环？先写机制里的哪个变量变了，再写它推出了什么结果。"></textarea>
+    <ul class="checks">
+      <li>机制句中的关键变量，在这个事件里对应什么？</li>
+      <li>这张卡的「不适用边界」有没有被触碰？如果有，就别硬套。</li>
+      <li>换一个学科，同样的机制还成立吗？</li>
+    </ul>
+    <div style="margin-top:14px;display:flex;gap:9px;flex-wrap:wrap">
+      <button class="primary" id="saveP">保存这次迁移</button>
+      <button class="ghost sm" id="expP">导出 Markdown</button>
+    </div>
+    <div class="arch">
+      <h5>迁移档案 · <span class="mono" id="pCount" style="font-size:11px;color:var(--dim2)">0</span> 条</h5>
+      <div id="pList"></div>
+    </div>
+  </section>
+
+  <!-- ③ 图谱 -->
+  <section class="mod" id="graph">
+    <div class="mhead"><span class="no">MODULE 03</span><h3>模型关系图谱</h3></div>
+    <p class="mdesc">边只承认卡片「关联模型」字段里声明过的关系：上游 / 下游 / 约束 / 对立 / 互补。静态 SVG，首屏直接渲染。</p>
+    <div class="graphwrap">
+      <svg id="gsvg" viewBox="0 0 980 430" width="100%" height="430" role="img" aria-label="模型关系图谱"></svg>
+    </div>
+    <div class="legend">
+      <span><i></i> 卡片已声明的关联：上游 / 下游 / 互补</span>
+      <span><i class="dash"></i> 约束关系（削弱或限定对方）</span>
+      <span style="color:var(--dim2)">虚线框 = 索引已登记、卡面待补</span>
+    </div>
+    <div class="chain">
+      <button class="sm" data-chain="复利效应,临界点,反馈回路,路径依赖">复利 → 临界点 → 正反馈 → 路径依赖</button>
+      <button class="sm" data-chain="熵增,反馈回路,临界点">熵增 → 负反馈抗熵 → 临界点</button>
+      <button class="sm" data-chain="机会成本,二阶思维,逆向思维">机会成本 → 二阶思维 ⇄ 逆向思维</button>
+      <button class="sm" data-chain="边际递减,复利效应,临界点">边际递减 ⊣ 复利 → 临界点</button>
+      <button class="sm ghost" data-chain="">清除高亮</button>
+    </div>
+  </section>
+
+  <!-- ④ 组合 -->
+  <section class="mod" id="combo">
+    <div class="mhead"><span class="no">MODULE 04</span><h3>我的组合</h3></div>
+    <p class="mdesc">选 2–3 个模型解释同一个现实问题。要求写清：三个模型分别负责哪一段推理，以及它们在哪里互相约束。</p>
+    <div class="combo">
+      <div class="box">
+        <div class="lab">选 2–3 个模型（已完稿卡）</div>
+        <div class="pick" id="pick"></div>
+        <div class="hint" style="margin-top:12px">已选 <span id="pickedN" class="mono">0</span> / 3</div>
+      </div>
+      <div class="box">
+        <div class="lab">要解释的现实问题</div>
+        <input type="text" id="cq" placeholder="例：为什么公司明知流程冗余却越改越乱？">
+        <div class="lab" style="margin-top:14px">组合解释</div>
+        <textarea id="ca" rows="5" placeholder="模型 A 解释哪一段 → 模型 B 接哪一段 → 两者在哪一步互相约束，以及这个组合失效的条件。"></textarea>
+      </div>
+    </div>
+    <div style="margin:14px 0 0;display:flex;gap:9px;flex-wrap:wrap">
+      <button class="primary" id="saveC">保存组合</button>
+      <button class="ghost sm" id="expC">导出 Markdown</button>
+    </div>
+    <div class="arch">
+      <h5>组合档案 · <span class="mono" id="cCount" style="font-size:11px;color:var(--dim2)">0</span> 组</h5>
+      <div id="cList"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>纸质感米白 · 墨黑正文 · 单一金色强调</span>
+    <span>卡面无图标装饰</span>
+    <span>数据存于本地浏览器</span>
+  </footer>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ============ 数据：10 张完稿卡 ============ */
+var MODELS=[
+{id:1,name:"复利效应",en:"Compound Interest",disc:"数学 / 金融学",
+ def:"增量按存量比例累积，收益本身再产生收益，增长呈指数形而非线性。",
+ mech:"因为 ΔA = r·A，所以 A 以 A₀(1+r)^t 增长；决定终值的是 r 与 t，不是初始 A₀，且后期增速远超前期。",
+ cases:[["金融","伯克希尔·哈撒韦 1965–2023 年化约 19.8%（公司年报公开），主要来自长期持有的期数累积。"],
+        ["大气科学","莫纳罗亚观测站 CO₂ 由 1958 年约 315 ppm 升至 2024 年 420 ppm 以上（NOAA 数据），存量排放逐年叠加。"],
+        ["微生物学","细菌在养分充足期按固定倍增时间分裂，菌落数指数上升，直至养分耗尽。"]],
+ trap:"用早期陡峭段外推长期，忽略 r 会随规模衰减。",
+ bound:"增量依赖一次性投入、或存在强上限（单项技能的天花板）时，指数曲线不成立。",
+ rel:[["临界点","下游：指数曲线在阈值处显形"],["边际递减","约束：r 衰减"]]},
+{id:2,name:"临界点",en:"Tipping Point",disc:"物理学 / 复杂系统科学",
+ def:"变量越过某阈值后主导反馈切换，系统状态跃迁且难以回到原状。",
+ mech:"因为参数连续变化使原稳态的吸引域消失，所以此前渐变、此后突变；回退需要更大幅度反向变化（滞后）。",
+ cases:[["气候科学","海冰消融降低反照率，吸收更多辐射，IPCC 将格陵兰冰盖等列为存在不可逆阈值的气候要素。"],
+        ["流行病学","群体免疫阈值 ≈ 1−1/R₀，接种率越过该点后传播链无法自持。"],
+        ["材料科学","水在 0℃ 结冰，1℃ 仍为液态，越过温度阈值相态突变。"]],
+ trap:"把事后看到的拐点当成可预测点；阈值临近时方差上升，常被误读为噪声。",
+ bound:"连续、无反馈切换、可线性回退的过程（匀速注水的水位）没有临界点。",
+ rel:[["反馈回路","机制前提"],["路径依赖","结果：跃迁后难回退"]]},
+{id:3,name:"机会成本",en:"Opportunity Cost",disc:"经济学",
+ def:"选择某项行动时，被放弃的次优选项所具有的价值。",
+ mech:"因为资源有限，任一用途占用资源即排斥其他用途，所以真实成本 = 显性支出 + 被放弃的隐性收益。",
+ cases:[["公共预算","韦布望远镜成本升至约 100 亿美元（GAO 报告），同期 NASA 天体物理其他任务预算被挤压。"],
+        ["教育决策","间隔年花掉的学费，往往小于同期放弃的工作经验与薪资积累。"],
+        ["公共卫生","同一预算用于低患病率筛查，即放弃覆盖更多人的基础干预。"]],
+ trap:"只算花掉的钱，不算被占用的时间与注意力；把沉没成本混进来一起算。",
+ bound:"资源未被占满、选项可并行且不互斥时（闲置资金、空闲时段），机会成本接近零。",
+ rel:[["边际递减","判断放弃收益的大小"],["二阶思维","前置动作：先识别被放弃项"]]},
+{id:4,name:"二阶思维",en:"Second-Order Thinking",disc:"系统工程 / 决策理论",
+ def:"不只估计行动的直接结果，还估计结果引发的结果。",
+ mech:"因为行动改变他人的激励与约束，他人响应再反作用于己，所以多推一站因果链，结论常与一阶相反。",
+ cases:[["贸易史","1930 年《斯穆特—霍利关税法》引发报复性关税，美国出口额在随后数年大幅下滑。"],
+        ["生态治理","1935 年澳大利亚引入甘蔗蟾蜍防治害虫，蟾蜍自身成为入侵物种（CSIRO 记录）。"],
+        ["城市交通","道路扩容短期缓堵，长期诱发新增车流，拥堵回弹（交通工程中的诱增交通）。"]],
+ trap:"无限递推导致决策瘫痪；越往后的层级不确定性越大，却仍按同等强度下注。",
+ bound:"因果链短、反馈可忽略的一次性事务（买一支笔）不值得推二阶。",
+ rel:[["反馈回路","机制：二阶常是反馈的第二圈"],["逆向思维","互补：前向推演 vs 反向排除"]]},
+{id:5,name:"路径依赖",en:"Path Dependence",disc:"制度经济学 / 演化生物学",
+ def:"早期偶然选择经正反馈放大后被锁定，此后即使存在更优方案也难以切换。",
+ mech:"因为切换成本随采用规模上升、协调效应使各方倾向留在原地，所以历史小事件决定最终均衡（多重均衡）。",
+ cases:[["技术史","1970–80 年代 VHS 与 Betamax 之争，租赁网络的规模效应助 VHS 胜出并锁定市场。"],
+        ["人机交互","QWERTY 布局沿用至今（Paul David 1985 的经典论证；其证据强度学界仍有争议）。"],
+        ["比较解剖","脊椎动物五趾肢体同源结构被后续陆生脊椎动物继承，是发育层面的历史锁定。"]],
+ trap:"把任何“先发生的事”都说成路径依赖；须先证明存在切换成本与锁定。",
+ bound:"切换成本低、无协调需求、可并行试错的领域（换一个文本编辑器）。",
+ rel:[["反馈回路","放大器"],["临界点","锁定发生的时刻"]]},
+{id:6,name:"熵增",en:"Entropy Increase",disc:"热力学 / 统计力学",
+ def:"孤立系统自发趋向微观状态数更多的宏观态，可用能减少，秩序须由外部供能维持。",
+ mech:"因为 ΔS ≥ 0，有序是低概率态，所以维持低熵必须持续输入能量并向外界排热。",
+ cases:[["地球系统","地球吸收太阳短波、向外辐射长波红外，靠这股外部通量维持地表低熵（薛定谔 1944《生命是什么》）。"],
+        ["组织管理","公司流程与文档随时间自发冗余，需持续投入整理成本才能维持可检索。"],
+        ["信息管理","文件反复转存与转述后与原稿偏差累积，须校验比对才能恢复。"]],
+ trap:"把“变乱”直接等同于熵增；须先划清系统边界 —— 开放系统可以局部降熵。",
+ bound:"有持续外部能量／信息输入且能排热的系统（生命体、有维护流程的团队）。",
+ rel:[["反馈回路","负反馈是抗熵装置"],["临界点","抗熵能力耗尽的时刻"]]},
+{id:7,name:"边际递减",en:"Diminishing Marginal Returns",disc:"经济学 / 农学",
+ def:"其他投入不变，连续增加某一投入，每新增一单位带来的产出增量终将下降。",
+ mech:"因为固定要素（土地、时间、注意力）成为瓶颈，可变要素越多，其单位可配合的固定要素越少，所以增量下滑。",
+ cases:[["作物营养","施氮量与谷物产量呈报酬递减响应曲线，过量施氮增产甚微且造成面源污染。"],
+        ["学习科学","单日连续复习时长与记忆保持率之间，超时后每新增一小时的保持增量下降。"],
+        ["广告计量","同一受众在固定周期内重复曝光，前几次转化提升明显，之后频次收益衰减。"]],
+ trap:"把“总量仍在上升”误判为“尚未递减”；递减的是增量，不是总量。",
+ bound:"存在网络效应或规模报酬递增的阶段（平台用户数增长），边际可能递增。",
+ rel:[["复利效应","相反力量：r 被拉低"],["机会成本","判断加投是否值得"]]},
+{id:8,name:"安全边际",en:"Margin of Safety",disc:"工程学 / 价值投资",
+ def:"让承受上限显著高于预期负荷，以吸收估计误差与意外冲击。",
+ mech:"因为误差与波动不可避免，预留缓冲使失效概率落入可接受区间，代价是常态下的效率损失。",
+ cases:[["结构工程","建筑结构可靠度设计用荷载与抗力分项系数、目标可靠指标留出裕度（GB 50068）。"],
+        ["投资","格雷厄姆《证券分析》（1934）要求价格显著低于内在价值估算才买入，用于吸收估值误差。"],
+        ["公卫储备","疫苗与防护物资按需求预测上限外加比例储备，以吸收预测偏差。"]],
+ trap:"缓冲被当成“多余”逐步削减；或反过来处处留边际，导致一事无成。",
+ bound:"可逆、单次成本低、可快速重试的决策（改一版文案）；边际成本高于失误成本时不必留。",
+ rel:[["临界点","防的是越界"],["熵增","缓冲被消耗的机制"]]},
+{id:9,name:"反馈回路",en:"Feedback Loop",disc:"控制论 / 系统动力学",
+ def:"输出回输为输入；正反馈放大偏离，负反馈抑制偏离。",
+ mech:"因为环路增益与相位决定叠加方式 —— 同相且增益 > 1 则自激放大，反相则收敛；存在延迟时负反馈也能振荡。",
+ cases:[["控制工程","恒温器按实测温度与设定值之差启停，是教科书式负反馈。"],
+        ["金融稳定","资产下跌触发追加保证金与抛售，抛售再压低价格，形成流动性螺旋（2008 年危机文献）。"],
+        ["湖泊生态","磷负荷增加引发藻华与缺氧，缺氧释放底泥磷，进一步加剧富营养化（湖泊修复研究）。"]],
+ trap:"把单向因果说成回路；不指出闭合路径与延迟时长，就不算反馈。",
+ bound:"输出无法回输到输入端的过程（一次性发射、单向广播）无反馈可言。",
+ rel:[["临界点","正反馈越界的后果"],["路径依赖","正反馈造成锁定"]]},
+{id:10,name:"逆向思维",en:"Inversion",disc:"数学 / 工程可靠性",
+ def:"不直接求解目标，而是枚举“必然导致失败的做法”并逐一排除，余下即可行域。",
+ mech:"因为失败模式比成功路径更易枚举且更稳定，所以把“最大化成功”换成“最小化可枚举失败”，搜索空间随之收缩。",
+ cases:[["患者安全","WHO 手术安全清单（Haynes 等 2009，发表于 NEJM 的多中心研究）逐项排除已知失误，降低并发症与死亡。"],
+        ["可靠性工程","FMEA 失效模式与影响分析（源于 1940s 美军 MIL-P-1629）先列失效模式，再定防护。"],
+        ["投资","芒格在伯克希尔年会公开引用雅各比“反过来想”，先列出会亏光本金的做法并回避。"]],
+ trap:"把“回避失败”当成“取得成功的充分条件”；只避错不出手，常得到平庸结果。",
+ bound:"目标开放、失败态不可枚举的创造性与探索性任务（写第一首诗、选定新研究方向）。",
+ rel:[["二阶思维","互补：前向推演 vs 反向排除"],["安全边际","同为防失效，但它是定量缓冲"]]}
+];
+
+/* ============ 数据：100 条索引（前 10 条已完稿） ============ */
+var INDEX=[
+["幸存者偏差","统计学"],["第一性原理","物理学 / 哲学"],["贝叶斯更新","概率论 / 统计学"],["大数定律","概率论"],
+["中心极限定理","统计学"],["回归均值","统计学"],["可证伪性","科学哲学"],["奥卡姆剃刀","哲学"],
+["地图非疆域","语义学 / 哲学"],["能力圈","投资学 / 认知科学"],["稀缺","心理学 / 经济学"],["损失厌恶","行为经济学"],
+["锚定效应","认知心理学"],["框架效应","认知心理学"],["可得性启发","认知心理学"],["代表性启发","认知心理学"],
+["确认偏误","认知心理学"],["沉没成本","经济学 / 决策科学"],["承诺升级","组织行为学"],["激励相容","机制设计 / 博弈论"],
+["道德风险","信息经济学"],["逆向选择","信息经济学 / 保险学"],["信号传递","信息经济学 / 演化生物学"],["甄别机制","信息经济学"],
+["囚徒困境","博弈论"],["纳什均衡","博弈论"],["零和与非零和","博弈论"],["协调博弈","博弈论 / 经济学"],
+["拍卖理论","博弈论 / 市场设计"],["公地悲剧","生态经济学 / 博弈论"],["搭便车","公共经济学"],["外部性","环境经济学"],
+["科斯定理","法经济学"],["比较优势","国际贸易理论"],["规模经济","产业组织"],["网络效应","产业组织 / 社会学"],
+["双边市场","平台经济学"],["长尾","统计学 / 商业"],["帕累托分布","统计学 / 经济学"],["幂律","统计物理 / 复杂系统"],
+["肥尾与极端风险","统计学 / 风险管理"],["黑天鹅","认识论 / 风险管理"],["反脆弱","风险管理 / 系统论"],["冗余与鲁棒性","工程学 / 生物学"],
+["模块化","工程学 / 计算机科学"],["解耦","系统工程 / 软件工程"],["抽象分层","计算机科学"],["缓存与预取","计算机体系结构 / 认知科学"],
+["排队论","运筹学"],["瓶颈理论","运筹学 / 管理学"],["利特尔法则","运筹学"],["库存与缓冲","供应链管理"],
+["牛鞭效应","供应链管理"],["准时制","工业工程"],["学习曲线","工业工程 / 认知心理学"],["边际分析","微观经济学"],
+["弹性","微观经济学"],["价格机制","经济学"],["套利","金融学"],["有效市场假说","金融学"],
+["风险溢价","金融学"],["分散化","金融学 / 统计学"],["对冲","金融学 / 保险学"],["现值与折现","金融学"],
+["杠杆","金融学 / 物理学"],["泡沫与崩盘","金融史 / 复杂系统"],["耗散结构","非平衡热力学"],["自组织","复杂系统科学"],
+["涌现","复杂系统科学"],["分形与自相似","数学 / 地球科学"],["尺度律","生物物理学 / 复杂系统"],["异速生长","生物物理学"],
+["演化稳定策略","演化博弈论"],["自然选择","演化生物学"],["适应度景观","演化生物学"],["红皇后效应","演化生物学"],
+["亲缘选择","演化生物学"],["互惠利他","演化生物学 / 博弈论"],["共生与协同演化","生态学"],["生态位","生态学"],
+["承载力","生态学 / 人口学"],["捕食者—猎物振荡","生态学 / 动力学"],["岛屿生物地理学","生物地理学"],
+["体内平衡","生理学"],["昼夜节律","时间生物学"],["神经可塑性","神经科学"],
+["预测编码","神经科学 / 认知科学"],["工作记忆容量","认知心理学"],["迁移学习","认知心理学 / 机器学习"],["组块化","认知心理学"]
+];
+
+/* 事件池：公开报道事实，供迁移练习使用 */
+var EVENTS=[
+{t:"欧盟《人工智能法案》（Regulation (EU) 2024/1689）于 2024 年 8 月 1 日生效，按风险分级约束 AI 系统。",s:"法规文本 / 2024"},
+{t:"世界气象组织确认 2023 年为有观测记录以来最暖的一年。",s:"WMO / 2024 年通报"},
+{t:"2024 年 7 月 19 日，CrowdStrike 的一次软件更新导致全球大量 Windows 设备蓝屏，航空与医疗系统受影响。",s:"公开报道 / 2024"},
+{t:"2024 年 3 月 19 日，日本央行结束负利率政策，为 17 年来首次加息。",s:"日本央行公告 / 2024"},
+{t:"2023 年 7 月，美联储将联邦基金利率目标区间升至 5.25%–5.50%，为 2001 年以来高位。",s:"FOMC 决议 / 2023"},
+{t:"2022 年 8 月，美国《芯片与科学法案》签署，为半导体制造提供约 527 亿美元补贴。",s:"法案文本 / 2022"},
+{t:"2023 年 11 月，OpenAI 董事会一度解除 Altman 的职务，数日后其复任。",s:"公开报道 / 2023"},
+{t:"2023 年 8 月，夏威夷毛伊岛野火造成重大人员伤亡与城镇损毁。",s:"公开报道 / 2023"},
+{t:"2023 年 12 月，COP28 全球盘点首次写入“转型脱离化石燃料”的表述。",s:"UNFCCC 决议文本 / 2023"},
+{t:"2023 年 5 月，WHO 宣布新冠不再构成国际关注的突发公共卫生事件。",s:"WHO 声明 / 2023"},
+{t:"2022 年 11 月 ChatGPT 公开发布，据媒体报道两个月内用户量过亿。",s:"公开报道 / 2022–2023"},
+{t:"2023 年，多国央行持续增持黄金储备（世界黄金协会年度数据）。",s:"WGC 报告 / 2024"}
+];
+
+/* ============ 工具 ============ */
+var $=function(s){return document.querySelector(s)};
+var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');
+  clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('on')},2100)}
+function iso(d){var p=function(n){return n<10?'0'+n:''+n};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())}
+function byName(n){for(var i=0;i<MODELS.length;i++){if(MODELS[i].name===n)return MODELS[i]}return null}
+function wordCount(m){
+  var t=m.def+m.mech+m.cases.map(function(c){return c[1]}).join('')+m.trap+m.bound+
+    m.rel.map(function(r){return r[0]+r[1]}).join('');
+  return t.replace(/\s/g,'').length;
+}
+function dl(name,text){
+  var b=new Blob([text],{type:'text/markdown;charset=utf-8'}),u=URL.createObjectURL(b),
+    a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();
+  document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(u)},1000);
+}
+
+/* ============ 导航 ============ */
+$$('.nav button').forEach(function(b){
+  b.onclick=function(){
+    $$('.nav button').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    $$('section.mod').forEach(function(s){s.classList.remove('on')});
+    $('#'+b.dataset.tab).classList.add('on');
+    window.scrollTo(0,0);
+  };
+});
+
+/* ============ ① 卡片库 ============ */
+var ALL=MODELS.concat(INDEX.map(function(r,i){
+  return {id:11+i,name:r[0],en:'',disc:r[1],draft:true};
+}));
+var curDis='all',curQ='';
+
+function renderGrid(){
+  var list=ALL.filter(function(m){
+    var okD = curDis==='all' ? true
+      : (curDis==='已完稿' ? !m.draft : (m.disc||'').indexOf(curDis)>=0);
+    var okQ = !curQ || (m.name+(m.disc||'')+(m.en||'')).toLowerCase().indexOf(curQ.toLowerCase())>=0;
+    return okD&&okQ;
+  });
+  $('#cnt').textContent='显示 '+list.length+' / 100';
+  $('#grid').innerHTML=list.map(function(m){
+    if(m.draft){
+      return '<div class="mc locked"><span class="idx">'+String(m.id).padStart(3,'0')+'</span>'+
+        '<span class="tag">待补</span><h4>'+esc(m.name)+'</h4>'+
+        '<div class="en">按模板 v1.0 补齐中</div>'+
+        '<div class="disc">'+esc(m.disc)+'</div></div>';
+    }
+    return '<div class="mc" data-id="'+m.id+'"><span class="idx">'+String(m.id).padStart(3,'0')+'</span>'+
+      '<span class="tag done">已完稿</span><h4>'+esc(m.name)+'</h4>'+
+      '<div class="en">'+esc(m.en)+'</div>'+
+      '<div class="disc">'+esc(m.disc)+'</div></div>';
+  }).join('');
+  $$('#grid .mc[data-id]').forEach(function(el){
+    el.onclick=function(){openSheet(parseInt(el.dataset.id,10))};
+  });
+}
+function openSheet(id){
+  var m=MODELS.filter(function(x){return x.id===id})[0]; if(!m)return;
+  var h='<div class="sheet"><div class="top"><span class="mono" style="font-size:11px;color:var(--gold)">'+
+    String(m.id).padStart(3,'0')+'</span><h3>'+esc(m.name)+'</h3>'+
+    '<span class="en">'+esc(m.en)+'</span><span class="sp"></span>'+
+    '<button class="sm ghost" id="closeS">收起</button></div><dl style="margin:6px 0 0">';
+  h+='<div class="field"><dt>定义</dt><dd>'+esc(m.def)+'</dd></div>';
+  h+='<div class="field"><dt>来源学科</dt><dd>'+esc(m.disc)+'</dd></div>';
+  h+='<div class="field"><dt>作用机制</dt><dd>'+esc(m.mech)+'</dd></div>';
+  h+='<div class="field"><dt>迁移案例</dt><dd class="cases"><ol style="margin:0;padding-left:0;list-style:none">'+
+    m.cases.map(function(c){return '<li><span class="dom">'+esc(c[0])+'</span>'+esc(c[1])+'</li>'}).join('')+
+    '</ol></dd></div>';
+  h+='<div class="field"><dt>误用陷阱</dt><dd>'+esc(m.trap)+'</dd></div>';
+  h+='<div class="field"><dt>不适用边界</dt><dd class="bound">'+esc(m.bound)+'</dd></div>';
+  h+='<div class="field"><dt>关联模型</dt><dd>'+
+    m.rel.map(function(r){
+      var t=byName(r[0]);
+      return '<span class="rel" '+(t?'data-go="'+t.id+'"':'style="opacity:.55"')+'>'+esc(r[0])+
+             ' <i>'+esc(r[1])+'</i></span>';
+    }).join('')+'</dd></div>';
+  h+='</dl><div class="wc">正文 '+wordCount(m)+' 字 / 上限 400 字</div></div>';
+  $('#sheet').innerHTML=h;
+  $('#closeS').onclick=function(){$('#sheet').innerHTML=''};
+  $$('#sheet .rel[data-go]').forEach(function(el){
+    el.onclick=function(){openSheet(parseInt(el.dataset.go,10));$('#sheet').scrollIntoView({behavior:'smooth',block:'center'})};
+  });
+}
+$('#q').oninput=function(){curQ=this.value;renderGrid()};
+$$('.filters .chip').forEach(function(c){
+  c.onclick=function(){
+    $$('.filters .chip').forEach(function(x){x.classList.remove('on')});
+    c.classList.add('on'); curDis=c.dataset.d; renderGrid();
+  };
+});
+renderGrid();
+
+/* ============ ② 每日一练 ============ */
+var curM=null,curE=null,timer=null,left=300;
+function draw(){
+  curM=MODELS[Math.floor(Math.random()*MODELS.length)];
+  curE=EVENTS[Math.floor(Math.random()*EVENTS.length)];
+  $('#pName').textContent=curM.name;
+  $('#pEn').textContent=curM.en;
+  $('#pMech').textContent='机制：'+curM.mech;
+  $('#pBound').innerHTML='不适用边界：'+esc(curM.bound);
+  $('#pEv').innerHTML=esc(curE.t)+'<span class="src">来源：'+esc(curE.s)+'</span>';
+  $('#pAns').value=''; $('#pEvOwn').value='';
+  stopTimer();
+}
+function stopTimer(){
+  if(timer){clearInterval(timer);timer=null}
+  left=300;$('#clock').textContent='05:00';$('#tbar').style.width='100%';$('#tstate').textContent='未开始';
+}
+$('#draw').onclick=function(){draw();toast('已换一组')};
+$('#start').onclick=function(){
+  if(timer){stopTimer();return}
+  left=300;
+  timer=setInterval(function(){
+    left--;
+    var m=Math.floor(left/60),s=left%60;
+    $('#clock').textContent=(m<10?'0'+m:m)+':'+(s<10?'0'+s:s);
+    $('#tbar').style.width=(left/300*100)+'%';
+    $('#tstate').textContent='进行中 · 到时自动停笔';
+    if(left<=0){stopTimer();$('#tstate').textContent='时间到 · 写多少算多少';toast('5 分钟到 · 停笔')}
+  },1000);
+  $('#tstate').textContent='进行中';
+};
+function loadP(){try{return JSON.parse(localStorage.getItem('mm_practice')||'[]')}catch(e){return[]}}
+function saveP(a){localStorage.setItem('mm_practice',JSON.stringify(a))}
+function renderP(){
+  var a=loadP();$('#pCount').textContent=a.length;
+  if(!a.length){$('#pList').innerHTML='<div class="empty">还没有记录。抽一组，写一次迁移。</div>';return}
+  $('#pList').innerHTML=a.slice().reverse().map(function(r){
+    return '<div class="arow"><div class="hd2"><b>'+esc(r.model)+'</b><span>'+esc(r.date)+'</span>'+
+      '<span>'+r.words+' 字</span></div>'+
+      '<p style="color:var(--dim);font-size:12.5px">事件：'+esc(r.event)+'</p>'+
+      '<p style="margin-top:8px">'+esc(r.text)+'</p></div>';
+  }).join('');
+}
+$('#saveP').onclick=function(){
+  var v=$('#pAns').value.trim();
+  if(!curM){toast('先抽一组');return}
+  if(v.length<30){toast('至少写 30 字，写到能被人反驳为止');return}
+  var own=$('#pEvOwn').value.trim();
+  var a=loadP();
+  a.push({date:iso(new Date()),model:curM.name,event:own||curE.t,text:v,words:v.length});
+  saveP(a);renderP();toast('已存入迁移档案');$('#pAns').value='';stopTimer();
+};
+$('#expP').onclick=function(){
+  var a=loadP();
+  if(!a.length){toast('档案为空');return}
+  var L=['# 迁移档案 · 今天这个模型能解释什么','','> 共 '+a.length+' 条 · 数据存于本地，无排名与评分',''];
+  a.slice().reverse().forEach(function(r){
+    L.push('## '+r.date+' · '+r.model,'','- 事件：'+r.event,'- 你的迁移解释（'+r.words+' 字）：',r.text,'');
+  });
+  dl('迁移档案_'+iso(new Date())+'.md',L.join('\n'));
+  toast('已导出 Markdown');
+};
+renderP();draw();
+
+/* ============ ③ 关系图谱 ============ */
+var NODES=[
+ {n:"复利效应",x:36,y:44,done:1},
+ {n:"边际递减",x:36,y:158,done:1},
+ {n:"临界点",x:296,y:44,done:1},
+ {n:"熵增",x:296,y:158,done:1},
+ {n:"反馈回路",x:556,y:44,done:1},
+ {n:"安全边际",x:556,y:158,done:1},
+ {n:"路径依赖",x:812,y:44,done:1},
+ {n:"机会成本",x:36,y:300,done:1},
+ {n:"二阶思维",x:296,y:300,done:1},
+ {n:"逆向思维",x:556,y:300,done:1},
+ {n:"幸存者偏差",x:812,y:300,done:0}
+];
+var EDGES=[
+ ["复利效应","临界点","下游",0],
+ ["临界点","反馈回路","机制前提",0],
+ ["反馈回路","路径依赖","放大导致锁定",0],
+ ["边际递减","复利效应","约束 r 衰减",1],
+ ["熵增","反馈回路","负反馈抗熵",0],
+ ["熵增","临界点","抗熵耗尽",1],
+ ["安全边际","临界点","防越界",0],
+ ["安全边际","反馈回路","抑制偏离",1],
+ ["机会成本","二阶思维","先识别放弃项",0],
+ ["二阶思维","逆向思维","前向 vs 反向",0],
+ ["安全边际","逆向思维","同为防失效",1],
+ ["幸存者偏差","逆向思维","待核：同为反失效",1]
+];
+function gp(n){for(var i=0;i<NODES.length;i++){if(NODES[i].n===n)return NODES[i]}return null}
+function drawGraph(){
+  var W=176,H=52,s='';
+  s+='<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">'+
+     '<path d="M0,0 L7,3 L0,6 Z" fill="#A8842C"/></marker></defs>';
+  EDGES.forEach(function(e){
+    var a=gp(e[0]),b=gp(e[1]);if(!a||!b)return;
+    var x1=a.x+W/2,y1=a.y+H/2,x2=b.x+W/2,y2=b.y+H/2;
+    var mx=(x1+x2)/2,my=(y1+y2)/2;
+    var dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy)||1;
+    var nx=-dy/len*13,ny=dx/len*13;
+    s+='<path class="edge" data-e="'+e[0]+'|'+e[1]+'" d="M'+x1+' '+y1+' Q'+(mx+nx)+' '+(my+ny)+' '+x2+' '+y2+
+       '" fill="none" stroke="'+(e[3]?'#C9C1AC':'#A8842C')+'" stroke-width="1.2"'+
+       (e[3]?' stroke-dasharray="4 4"':'')+' marker-end="url(#ar)"/>';
+  });
+  EDGES.forEach(function(e){
+    var a=gp(e[0]),b=gp(e[1]);if(!a||!b)return;
+    var x1=a.x+W/2,y1=a.y+H/2,x2=b.x+W/2,y2=b.y+H/2;
+    var mx=(x1+x2)/2,my=(y1+y2)/2;
+    var dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy)||1;
+    var nx=-dy/len*22,ny=dx/len*22;
+    s+='<text class="edgeLbl" x="'+(mx+nx)+'" y="'+(my+ny+4)+'" text-anchor="middle">'+e[2]+'</text>';
+  });
+  NODES.forEach(function(nd){
+    var m=byName(nd.n);
+    s+='<g class="node" data-n="'+nd.n+'" transform="translate('+nd.x+','+nd.y+')">'+
+       '<rect width="'+W+'" height="'+H+'" rx="2" fill="'+(nd.done?'#FFFFFF':'#FBF9F2')+
+       '" stroke="'+(nd.done?'#D2C9B2':'#C9C1AC')+'" stroke-width="1"'+
+       (nd.done?'':' stroke-dasharray="5 4"')+'/>'+
+       '<text x="'+(W/2)+'" y="24" fill="'+(nd.done?'#1C1B18':'#A29B88')+'">'+nd.n+'</text>'+
+       '<text x="'+(W/2)+'" y="40" style="font-size:10px;font-family:Consolas,monospace" fill="'+
+       (nd.done?'#A8842C':'#C9C1AC')+'">'+(nd.done?'已完稿':'待补')+'</text></g>';
+  });
+  $('#gsvg').innerHTML=s;
+  $$('#gsvg .node').forEach(function(g){
+    g.onclick=function(){
+      var m=byName(g.dataset.n);
+      if(!m){toast('该条目卡面待补 · 索引已登记');return}
+      $$('.nav button').forEach(function(x){x.classList.remove('on')});
+      $$('.nav button')[0].classList.add('on');
+      $$('section.mod').forEach(function(x){x.classList.remove('on')});
+      $('#lib').classList.add('on');
+      openSheet(m.id);$('#sheet').scrollIntoView({behavior:'smooth',block:'center'});
+    };
+  });
+}
+function hiChain(names){
+  $$('#gsvg .node').forEach(function(g){g.classList.remove('hi')});
+  $$('#gsvg .edge').forEach(function(p){p.setAttribute('stroke-width','1.2');p.setAttribute('stroke',
+    p.getAttribute('stroke-dasharray')?'#C9C1AC':'#A8842C')});
+  if(!names.length)return;
+  var set={};names.forEach(function(n){set[n]=1});
+  $$('#gsvg .node').forEach(function(g){if(set[g.dataset.n])g.classList.add('hi')});
+  $$('#gsvg .edge').forEach(function(p){
+    var pr=p.dataset.e.split('|');
+    if(set[pr[0]]&&set[pr[1]]){p.setAttribute('stroke-width','2.2');p.setAttribute('stroke','#8A6A18')}
+  });
+}
+$$('.chain button').forEach(function(b){
+  b.onclick=function(){
+    var v=b.dataset.chain;
+    hiChain(v?v.split(','):[]);
+    if(v)toast('高亮链路：'+v.replace(/,/g,' → '));
+  };
+});
+drawGraph();
+
+/* ============ ④ 我的组合 ============ */
+var picked=[];
+$('#pick').innerHTML=MODELS.map(function(m){
+  return '<span class="chip" data-m="'+m.name+'">'+esc(m.name)+'</span>';
+}).join('');
+$$('#pick .chip').forEach(function(c){
+  c.onclick=function(){
+    var n=c.dataset.m,i=picked.indexOf(n);
+    if(i>=0){picked.splice(i,1);c.classList.remove('on')}
+    else{
+      if(picked.length>=3){toast('最多 3 个模型');return}
+      picked.push(n);c.classList.add('on');
+    }
+    $('#pickedN').textContent=picked.length;
+  };
+});
+function loadC(){try{return JSON.parse(localStorage.getItem('mm_combo')||'[]')}catch(e){return[]}}
+function saveC(a){localStorage.setItem('mm_combo',JSON.stringify(a))}
+function renderC(){
+  var a=loadC();$('#cCount').textContent=a.length;
+  if(!a.length){$('#cList').innerHTML='<div class="empty">还没有组合。选 2–3 个模型，解释一个你正在面对的问题。</div>';return}
+  $('#cList').innerHTML=a.slice().reverse().map(function(r){
+    return '<div class="crow"><div class="t">'+esc(r.q)+'</div><div class="m">'+esc(r.models.join(' + '))+'</div>'+
+      '<p>'+esc(r.text)+'</p><div class="d">'+esc(r.date)+'</div></div>';
+  }).join('');
+}
+$('#saveC').onclick=function(){
+  var q=$('#cq').value.trim(),t=$('#ca').value.trim();
+  if(picked.length<2){toast('至少选 2 个模型');return}
+  if(!q){toast('先写下要解释的问题');return}
+  if(t.length<30){toast('组合解释至少 30 字');return}
+  var a=loadC();
+  a.push({date:iso(new Date()),models:picked.slice(),q:q,text:t});
+  saveC(a);renderC();toast('已存入组合档案');$('#ca').value='';
+};
+$('#expC').onclick=function(){
+  var a=loadC();
+  if(!a.length){toast('档案为空');return}
+  var L=['# 组合档案 · 我的组合','','> 共 '+a.length+' 组',''];
+  a.slice().reverse().forEach(function(r){
+    L.push('## '+r.q,'','- 组合：'+r.models.join(' + '),'- 日期：'+r.date,'',r.text,'');
+  });
+  dl('我的组合_'+iso(new Date())+'.md',L.join('\n'));
+  toast('已导出 Markdown');
+};
+renderC();
+</script>
+</body>
+</html>
