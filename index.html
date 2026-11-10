@@ -184,6 +184,125 @@ section.mod.on{display:block}
 footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--dim2);
   display:flex;gap:16px;flex-wrap:wrap}
 </style>
+<!-- WBX-CSS-START -->
+<style id="wbx-css">
+/* ============================================================
+   WorkBuddy Enhance Layer v2 · 通用样式
+   目标：零依赖、单文件、离线可运行；不改动原有视觉调性
+   ============================================================ */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{overflow-x:clip;overflow-wrap:break-word}
+:where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{
+  outline:2px solid var(--wbx-acc,#2F6F78);outline-offset:2px
+}
+
+/* 表格 / 宽内容横向滚动容器（由脚本自动包裹） */
+.wbx-scroll{max-width:100%;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.wbx-scroll::-webkit-scrollbar,.wbx-hscroll::-webkit-scrollbar{height:6px}
+.wbx-scroll::-webkit-scrollbar-thumb,.wbx-hscroll::-webkit-scrollbar-thumb{background:rgba(128,132,138,.38);border-radius:6px}
+.wbx-scroll>table{min-width:100%}
+/* 单行按钮组在小屏改为横滑（由脚本判定后加类） */
+.wbx-hscroll{flex-wrap:nowrap!important;overflow-x:auto!important;max-width:100%;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.wbx-hscroll>*{flex:0 0 auto}
+.wbx-overflow{max-width:100%!important;min-width:0!important}
+
+/* 查找命中闪高亮 */
+.wbx-flash{outline:2px solid #D89A2C!important;outline-offset:3px;background:rgba(216,154,44,.16)!important;transition:background .5s ease,outline .5s ease}
+
+/* ---------- 右下角工具箱 ---------- */
+.wbx-dock{
+  position:fixed;right:max(14px,env(safe-area-inset-right));bottom:max(14px,env(safe-area-inset-bottom));
+  z-index:9998;display:flex;flex-direction:column;align-items:flex-end;gap:8px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  font-size:13px;line-height:1.55;letter-spacing:0;text-transform:none;
+  --wbx-surface:#fff;--wbx-text:#20262E;--wbx-line:#DDE2E7;--wbx-soft:#F3F5F7;--wbx-acc:#2F6F78;
+}
+.wbx-fab{
+  width:46px;height:46px;min-height:46px;padding:0;border-radius:50%;
+  border:1px solid var(--wbx-line);background:var(--wbx-surface);color:var(--wbx-text);
+  box-shadow:0 4px 18px rgba(0,0,0,.18);display:grid;place-items:center;cursor:pointer;
+  font-family:inherit;font-size:18px;line-height:1;transition:transform .18s ease,box-shadow .18s ease
+}
+.wbx-fab:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(0,0,0,.24)}
+.wbx-fab svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wbx-panel{
+  width:min(340px,calc(100vw - 28px));max-height:min(72vh,600px);overflow:auto;
+  background:var(--wbx-surface);color:var(--wbx-text);
+  border:1px solid var(--wbx-line);border-radius:12px;box-shadow:0 12px 42px rgba(0,0,0,.22);
+  padding:13px 14px 14px
+}
+.wbx-panel[hidden]{display:none}
+.wbx-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.wbx-head b{font-size:13.5px;letter-spacing:.02em}
+.wbx-head .wbx-x{margin-left:auto;border:1px solid var(--wbx-line);background:transparent;color:var(--wbx-text);
+  border-radius:6px;width:26px;height:26px;min-height:26px;padding:0;cursor:pointer;font-size:14px;line-height:1}
+.wbx-label{font-size:11px;letter-spacing:.08em;color:#8A939C;margin:12px 0 5px;text-transform:uppercase}
+.wbx-search{width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid var(--wbx-line);border-radius:8px;
+  background:var(--wbx-soft);color:var(--wbx-text);font-family:inherit;font-size:14px;outline:none}
+.wbx-search:focus{border-color:var(--wbx-acc)}
+.wbx-list{list-style:none;margin:6px 0 0;padding:0;max-height:190px;overflow:auto}
+.wbx-list li{margin:0;padding:0}
+.wbx-list button,.wbx-row button{
+  display:block;width:100%;text-align:left;border:0;background:transparent;color:var(--wbx-text);
+  padding:6px 8px;border-radius:6px;cursor:pointer;font-family:inherit;font-size:12.5px;line-height:1.5
+}
+.wbx-list button:hover,.wbx-row button:hover{background:var(--wbx-soft)}
+.wbx-list .wbx-empty{color:#8A939C;font-size:12px;padding:6px 8px}
+.wbx-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.wbx-row button{
+  flex:1 1 auto;min-width:68px;text-align:center;border:1px solid var(--wbx-line);
+  background:var(--wbx-soft);border-radius:7px;padding:6px 8px
+}
+.wbx-row button.wbx-primary{background:var(--wbx-acc);border-color:var(--wbx-acc);color:#fff}
+.wbx-zoom{display:flex;align-items:center;gap:6px;margin-top:6px}
+.wbx-zoom button{width:34px;min-width:34px;padding:5px 0;font-size:14px}
+.wbx-zoom span{flex:1;text-align:center;font-size:12px;color:#8A939C}
+.wbx-tip{margin-top:10px;padding-top:9px;border-top:1px solid var(--wbx-line);font-size:11px;color:#8A939C;line-height:1.65}
+.wbx-msg{margin-top:7px;font-size:11.5px;color:var(--wbx-acc);min-height:0}
+.wbx-msg.wbx-err{color:#C0563B}
+.wbx-file{display:none}
+.wbx-check{display:flex;gap:6px;align-items:center;font-size:11.5px;color:#8A939C;margin-top:6px}
+.wbx-check input{min-height:0;font-size:12px}
+.wbx-scrollhint{font-size:10.5px;color:#8A939C;margin-top:4px}
+
+@media (max-width:760px){
+  /* 触摸目标与 iOS 输入框自动缩放 */
+  button,select,input[type=button],input[type=submit],a[href]{min-height:36px}
+  input:not([type=range]):not([type=checkbox]):not([type=radio]):not([type=file]),select,textarea{font-size:16px}
+  .wbx-dock{right:max(10px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom))}
+  .wbx-fab{width:44px;height:44px;min-height:44px}
+  .wbx-panel{max-height:min(76vh,600px);font-size:13.5px;padding:11px 12px}
+  .wbx-label{margin:8px 0 4px}
+  .wbx-list{max-height:96px}
+  .wbx-list button{padding:5px 8px}
+  .wbx-tip{display:none}
+  .wbx-check{margin-top:4px;font-size:11px}
+  .wbx-row button{min-height:38px}
+}
+@media (max-width:420px){
+  .wbx-panel{width:calc(100vw - 20px)}
+}
+@media print{
+  html{zoom:1!important}
+  body{overflow-x:visible!important}
+  .wbx-dock{display:none!important}
+  .wbx-flash{outline:none!important;background:none!important}
+}
+@media (prefers-reduced-motion:reduce){
+  .wbx-fab,.wbx-flash{transition:none!important}
+  html{scroll-behavior:auto!important}
+}
+
+
+/* 09 思维模型馆 · 卡片库窄屏 */
+@media (max-width:520px){
+  .wrap{padding:0 13px 64px}
+  .hd{padding-left:13px;padding-right:13px}
+  .prac,.combo,.grid2,.grid3{grid-template-columns:minmax(0,1fr)!important}
+  svg{max-width:100%}
+}
+</style>
+<!-- WBX-CSS-END -->
 </head>
 <body>
 
@@ -773,5 +892,423 @@ $('#expC').onclick=function(){
 };
 renderC();
 </script>
+<!-- WBX-JS-START -->
+<script id="wbx-js">
+/* ============================================================
+   WorkBuddy Enhance Layer v2 · 运行时
+   提供：页面内查找 / 自动目录 / 字号 / 本地数据备份与恢复 /
+         打印 / 回到顶部 / 表格横滑包裹 / 小屏溢出兜底
+   零依赖、单文件、幂等；所有状态使用 wbx.v2.* 前缀
+   ============================================================ */
+(function () {
+  'use strict';
+  var PFX = 'wbx.v2.';
+  var PAGE = location.pathname || location.href;
+  var ZKEY = PFX + 'zoom.' + PAGE;
+  var DOCK_ID = 'wbxDock';
+
+  /* ---------- 工具 ---------- */
+  function el(tag, cls, txt) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt != null) e.textContent = txt;
+    return e;
+  }
+  function rgbLum(c) {
+    var m = String(c || '').match(/(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)/);
+    if (!m) return 1;
+    return (0.2126 * +m[1] + 0.7152 * +m[2] + 0.0722 * +m[3]) / 255;
+  }
+  function theme() {
+    var dock = document.getElementById(DOCK_ID);
+    var cs = getComputedStyle(document.documentElement);
+    var keys = ['--acc', '--accent', '--ink', '--primary', '--brand', '--grn', '--green', '--gold', '--amber', '--main'];
+    var acc = '';
+    for (var i = 0; i < keys.length; i++) {
+      var v = cs.getPropertyValue(keys[i]).trim();
+      if (v && /^(#|rgb)/i.test(v)) { acc = v; break; }
+    }
+    if (!/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(acc) && !/^rgb/i.test(acc)) acc = '#2F6F78';
+    var dark = rgbLum(getComputedStyle(document.body).backgroundColor) < 0.45;
+    dock.style.setProperty('--wbx-acc', acc);
+    dock.style.setProperty('--wbx-surface', dark ? '#1B2128' : '#FFFFFF');
+    dock.style.setProperty('--wbx-text', dark ? '#EDF1F3' : '#20262E');
+    dock.style.setProperty('--wbx-line', dark ? '#3A444E' : '#DDE2E7');
+    dock.style.setProperty('--wbx-soft', dark ? '#252D36' : '#F3F5F7');
+  }
+
+  /* ---------- 自动修复：表格横滑包裹 ---------- */
+  function wrapTables() {
+    var ts = document.querySelectorAll('table');
+    for (var i = 0; i < ts.length; i++) {
+      var t = ts[i];
+      if (t.closest('.wbx-dock')) continue;
+      var p = t.parentElement;
+      if (!p || p.classList.contains('wbx-scroll')) continue;
+      var ps = getComputedStyle(p);
+      if (ps.overflowX === 'auto' || ps.overflowX === 'scroll') continue;
+      var box = el('div', 'wbx-scroll');
+      p.insertBefore(box, t);
+      box.appendChild(t);
+    }
+  }
+
+  /* ---------- 自动修复：单行按钮组横滑 ---------- */
+  function markHScroll() {
+    if (window.innerWidth > 900) return;
+    var nodes = document.querySelectorAll('nav,.nav,.tabs,.topnav,.tabbar,.stepbar,header');
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      if (n.closest('.wbx-dock') || n.dataset.wbxHs) continue;
+      var cs = getComputedStyle(n);
+      if (cs.display !== 'flex' || cs.flexWrap === 'wrap' || n.children.length < 3) continue;
+      if (cs.overflowX === 'auto' || cs.overflowX === 'scroll') { n.dataset.wbxHs = '1'; continue; }
+      if (n.scrollWidth > n.clientWidth + 8) {
+        n.classList.add('wbx-hscroll');
+        n.dataset.wbxHs = '1';
+      }
+    }
+  }
+
+  /* ---------- 自动修复：小屏超宽元素兜底 ---------- */
+  function inScroller(e) {
+    var p = e.parentElement, guard = 0;
+    while (p && p !== document.body && guard++ < 8) {
+      var o = getComputedStyle(p).overflowX;
+      if (p.classList.contains('wbx-scroll') || p.classList.contains('wbx-hscroll') || o === 'auto' || o === 'scroll') return true;
+      p = p.parentElement;
+    }
+    return false;
+  }
+  function fixOverflow() {
+    if (window.innerWidth > 760) return;
+    var W = window.innerWidth;
+    var all = document.querySelectorAll('body *');
+    for (var i = 0; i < all.length; i++) {
+      var e = all[i];
+      if (e.closest('.wbx-dock') || e.closest('svg') || e.dataset.wbxFix) continue;
+      var cs = getComputedStyle(e);
+      if (cs.display === 'none' || cs.position === 'fixed') continue;
+      if (inScroller(e)) continue; // 横滑容器内的溢出是可滚动内容，不压缩
+      var r = e.getBoundingClientRect();
+      if (r.width === 0 && r.height === 0) continue;
+      if (r.right > W + 2 || r.left < -2) {
+        var tag = e.tagName;
+        if (tag === 'BUTTON' || tag === 'A' || tag === 'INPUT' || tag === 'SELECT') continue;
+        if (/^(SPAN|P|DIV|TD|TH|B|LI|LABEL|SMALL)$/.test(tag) && !e.closest('nav,header,button,.wbx-hscroll')) {
+          if (cs.whiteSpace === 'nowrap') e.style.whiteSpace = 'normal';
+        }
+        e.classList.add('wbx-overflow');
+        e.dataset.wbxFix = '1';
+      }
+    }
+  }
+  function autoFix() { try { wrapTables(); markHScroll(); fixOverflow(); } catch (e) {} }
+
+  /* ---------- 目录 ---------- */
+  function outlineItems() {
+    var items = [], seen = {};
+    function add(target, text, isNav) {
+      text = (text || '').replace(/\s+/g, ' ').trim().slice(0, 46);
+      if (!text || seen[text] || items.length >= 14) return;
+      seen[text] = 1;
+      items.push({ target: target, text: text, nav: !!isNav });
+    }
+    var navs = [].slice.call(document.querySelectorAll(
+      '[data-p],[data-go],[data-tab],[data-panel],nav button,.nav button,.tabs button,.topnav a,.nav a'))
+      .filter(function (b) { return !b.closest('.wbx-dock') && (b.textContent || '').trim(); });
+    if (navs.length >= 3) {
+      navs.forEach(function (b) { add(b, b.textContent, true); });
+    }
+    document.querySelectorAll('section[id],section').forEach(function (s) {
+      var h = s.querySelector('h1,h2,h3,.sec-h h3,.modhead h2');
+      if (h && !seen[(h.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 46)]) add(s, h.textContent, false);
+    });
+    // 没有模块导航的页面（如问卷型 / 单屏仪表盘）用标题补足目录
+    if (items.length < 5) {
+      document.querySelectorAll('h2,h3,.sec-h h3,.card h3').forEach(function (h) { add(h, h.textContent, false); });
+    }
+    return items;
+  }
+
+  /* ---------- 揭示隐藏面板（跨 tab 查找） ---------- */
+  function reveal(node) {
+    var p = node.parentElement, guard = 0;
+    while (p && p !== document.body && guard++ < 14) {
+      if (getComputedStyle(p).display === 'none') {
+        var id = p.id, btn = null;
+        if (id) {
+          btn = [].slice.call(document.querySelectorAll('[data-p],[data-go],[data-tab],[data-panel],[data-target],[data-step],[data-view]'))
+            .find(function (b) {
+              for (var k in b.dataset) if (b.dataset[k] === id) return true;
+              return false;
+            });
+        }
+        if (btn) btn.click();
+        if (getComputedStyle(p).display === 'none') {
+          p.style.display = 'block';
+          (function (tmp) { setTimeout(function () { tmp.style.removeProperty('display'); }, 2600); })(p);
+        }
+      }
+      p = p.parentElement;
+    }
+  }
+  function goto(node) {
+    reveal(node);
+    setTimeout(function () {
+      try { node.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) { node.scrollIntoView && node.scrollIntoView(); }
+      node.classList.add('wbx-flash');
+      setTimeout(function () { node.classList.remove('wbx-flash'); }, 1700);
+    }, 60);
+  }
+
+  /* ---------- 页面内查找 ---------- */
+  function search(q) {
+    q = q.trim().toLowerCase();
+    if (!q) return [];
+    var all = [].slice.call(document.querySelectorAll('body *')).filter(function (e) { return !e.closest('.wbx-dock'); });
+    var hits = all.filter(function (e) {
+      var t = (e.textContent || '').toLowerCase();
+      if (t.indexOf(q) < 0 || t.length > 3000) return false;
+      for (var i = 0; i < e.children.length; i++) {
+        if ((e.children[i].textContent || '').toLowerCase().indexOf(q) >= 0) return false;
+      }
+      return true;
+    });
+    return hits.slice(0, 20);
+  }
+  function brief(e) {
+    var t = (e.textContent || '').replace(/\s+/g, ' ').trim();
+    return t.length > 54 ? t.slice(0, 54) + '…' : t;
+  }
+
+  /* ---------- 备份与恢复 ---------- */
+  function snapshot() {
+    var o = { _wbx: { version: 2, app: document.title, href: location.href, created: new Date().toISOString() }, storage: {} };
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (!k || k.indexOf(PFX) === 0) continue;
+        o.storage[k] = localStorage.getItem(k);
+      }
+    } catch (e) {}
+    return o;
+  }
+  function saveFile(name, text, mime) {
+    try {
+      var blob = new Blob([text], { type: mime || 'application/json;charset=utf-8' });
+      var u = URL.createObjectURL(blob), a = document.createElement('a');
+      a.href = u; a.download = name; document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(u); a.remove(); }, 1600);
+      return true;
+    } catch (e) { return false; }
+  }
+
+  /* ---------- 构建工具箱 ---------- */
+  function build() {
+    if (document.getElementById(DOCK_ID)) return;
+    var dock = el('div', 'wbx-dock');
+    dock.id = DOCK_ID;
+
+    var fab = el('button', 'wbx-fab');
+    fab.type = 'button';
+    fab.setAttribute('aria-label', '打开工具箱（Alt+W）');
+    fab.setAttribute('aria-expanded', 'false');
+    fab.title = '工具箱 · 查找 / 目录 / 备份（Alt+W）';
+    fab.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/></svg>';
+
+    var panel = el('div', 'wbx-panel');
+    panel.id = 'wbxPanel';
+    panel.hidden = true;
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', '工具箱');
+
+    var head = el('div', 'wbx-head');
+    head.appendChild(el('b', null, '工具箱'));
+    var x = el('button', 'wbx-x', '×');
+    x.type = 'button'; x.title = '关闭（Esc）'; x.setAttribute('aria-label', '关闭工具箱');
+    head.appendChild(x); panel.appendChild(head);
+
+    panel.appendChild(el('div', 'wbx-label', '页面内查找 · Ctrl / ⌘ + K'));
+    var sInput = document.createElement('input');
+    sInput.className = 'wbx-search'; sInput.type = 'search';
+    sInput.placeholder = '输入关键词，定位到具体段落…';
+    sInput.setAttribute('aria-label', '页面内查找');
+    panel.appendChild(sInput);
+    var sList = el('ul', 'wbx-list'); sList.id = 'wbxResults'; panel.appendChild(sList);
+
+    panel.appendChild(el('div', 'wbx-label', '快速跳转'));
+    var oList = el('ul', 'wbx-list'); oList.id = 'wbxOutline'; panel.appendChild(oList);
+
+    panel.appendChild(el('div', 'wbx-label', '阅读与输出'));
+    var zrow = el('div', 'wbx-zoom');
+    var zMinus = el('button', null, 'A−'), zVal = el('span', null, '100%'), zPlus = el('button', null, 'A+');
+    zMinus.type = zPlus.type = 'button';
+    zMinus.title = '缩小字号'; zPlus.title = '放大字号';
+    zrow.appendChild(zMinus); zrow.appendChild(zVal); zrow.appendChild(zPlus);
+    panel.appendChild(zrow);
+
+    var row1 = el('div', 'wbx-row');
+    var bTop = el('button', null, '回到顶部');
+    var bPrint = el('button', null, '打印 / 存 PDF');
+    [bTop, bPrint].forEach(function (b) { b.type = 'button'; row1.appendChild(b); });
+    panel.appendChild(row1);
+
+    var row2 = el('div', 'wbx-row');
+    var bExport = el('button', 'wbx-primary', '导出本地数据');
+    var bImport = el('button', null, '恢复本地数据');
+    [bExport, bImport].forEach(function (b) { b.type = 'button'; row2.appendChild(b); });
+    panel.appendChild(row2);
+
+    var chk = el('label', 'wbx-check');
+    var cbox = document.createElement('input');
+    cbox.type = 'checkbox'; cbox.id = 'wbxConfirm';
+    chk.appendChild(cbox);
+    chk.appendChild(document.createTextNode('恢复将覆盖当前浏览器内已有数据，我已了解'));
+    panel.appendChild(chk);
+
+    var file = document.createElement('input');
+    file.type = 'file'; file.accept = '.json,application/json'; file.className = 'wbx-file'; file.id = 'wbxFile';
+    panel.appendChild(file);
+
+    var msg = el('div', 'wbx-msg'); msg.id = 'wbxMsg'; panel.appendChild(msg);
+    panel.appendChild(el('div', 'wbx-tip',
+      '提示：Alt+W 开关工具箱 · Ctrl/⌘+K 查找 · Esc 关闭。所有数据仅保存在本机浏览器，导出文件请自行保管。'));
+
+    dock.appendChild(panel); dock.appendChild(fab);
+    document.body.appendChild(dock);
+    theme();
+
+    function say(t, bad) {
+      msg.textContent = t || '';
+      msg.className = 'wbx-msg' + (bad ? ' wbx-err' : '');
+      if (t) setTimeout(function () { if (msg.textContent === t) msg.textContent = ''; }, 5000);
+    }
+    function open(on) {
+      panel.hidden = !on;
+      fab.setAttribute('aria-expanded', on ? 'true' : 'false');
+      if (on) { renderOutline(); if (sInput.value.trim()) renderSearch(); setTimeout(function () { sInput.focus(); }, 30); }
+    }
+    fab.addEventListener('click', function () { open(panel.hidden); });
+    x.addEventListener('click', function () { open(false); });
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); open(true); sInput.select(); }
+      else if (e.key === 'Escape' && !panel.hidden) open(false);
+      else if (e.altKey && (e.key === 'w' || e.key === 'W')) { e.preventDefault(); open(panel.hidden); }
+    });
+
+    function renderOutline() {
+      oList.textContent = '';
+      var items = outlineItems();
+      if (!items.length) { oList.appendChild(el('li', 'wbx-empty', '本页暂无可跳转的模块')); return; }
+      items.forEach(function (it) {
+        var li = document.createElement('li'), b = el('button', null, it.text);
+        b.type = 'button';
+        b.addEventListener('click', function () {
+          if (it.nav) { it.target.click(); }
+          goto(it.target);
+          if (window.innerWidth <= 760) open(false);
+        });
+        li.appendChild(b); oList.appendChild(li);
+      });
+    }
+    function renderSearch() {
+      sList.textContent = '';
+      var q = sInput.value.trim();
+      if (!q) { sList.appendChild(el('li', 'wbx-empty', '输入关键词后显示匹配段落')); return; }
+      var hits = search(q);
+      if (!hits.length) { sList.appendChild(el('li', 'wbx-empty', '没有找到「' + q + '」')); return; }
+      hits.forEach(function (h) {
+        var li = document.createElement('li'), b = el('button', null, brief(h));
+        b.type = 'button';
+        b.addEventListener('click', function () { goto(h); if (window.innerWidth <= 760) open(false); });
+        li.appendChild(b); sList.appendChild(li);
+      });
+    }
+    var tId;
+    sInput.addEventListener('input', function () { clearTimeout(tId); tId = setTimeout(renderSearch, 140); });
+    renderSearch(); renderOutline();
+
+    var zoom = 1;
+    try { zoom = parseFloat(localStorage.getItem(ZKEY)) || 1; } catch (e) {}
+    if (zoom < 0.8 || zoom > 1.35) zoom = 1;
+    function applyZoom() {
+      document.documentElement.style.zoom = zoom;
+      zVal.textContent = Math.round(zoom * 100) + '%';
+      try { localStorage.setItem(ZKEY, String(zoom)); } catch (e) {}
+    }
+    applyZoom();
+    zMinus.addEventListener('click', function () { zoom = Math.max(0.8, Math.round((zoom - 0.1) * 10) / 10); applyZoom(); say('字号 ' + Math.round(zoom * 100) + '%'); });
+    zPlus.addEventListener('click', function () { zoom = Math.min(1.3, Math.round((zoom + 0.1) * 10) / 10); applyZoom(); say('字号 ' + Math.round(zoom * 100) + '%'); });
+    bTop.addEventListener('click', function () {
+      try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); }
+      if (window.innerWidth <= 760) open(false);
+    });
+    bPrint.addEventListener('click', function () { try { window.print(); } catch (e) { say('当前环境不支持打印', true); } });
+    bExport.addEventListener('click', function () {
+      var data = snapshot(), n = Object.keys(data.storage).length;
+      var base = (document.title || 'app').split(/[·|｜—]/)[0]
+        .replace(/[\\/:*?"<>|\s]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '').slice(0, 20) || 'app';
+      var name = 'backup-' + base + '-' + new Date().toISOString().slice(0, 10) + '.json';
+      var ok = saveFile(name, JSON.stringify(data, null, 2));
+      if (ok) say('已导出 ' + n + ' 项本地数据');
+      else {
+        try {
+          navigator.clipboard.writeText(JSON.stringify(data));
+          say('下载不可用，内容已复制到剪贴板');
+        } catch (e) { say('导出失败：当前环境不支持文件下载', true); }
+      }
+    });
+    bImport.addEventListener('click', function () {
+      if (!cbox.checked) { say('请先勾选下方的确认项', true); return; }
+      file.click();
+    });
+    file.addEventListener('change', function () {
+      var f = file.files && file.files[0];
+      if (!f) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        try {
+          var d = JSON.parse(String(reader.result));
+          if (!d || !d._wbx || !d.storage || typeof d.storage !== 'object') throw new Error('格式不符');
+          var n = 0;
+          Object.keys(d.storage).forEach(function (k) {
+            if (k.indexOf(PFX) === 0) return;
+            localStorage.setItem(k, String(d.storage[k])); n++;
+          });
+          say('已恢复 ' + n + ' 项，正在刷新…');
+          setTimeout(function () { location.reload(); }, 700);
+        } catch (e) { say('恢复失败：不是有效的备份文件', true); }
+        file.value = '';
+      };
+      reader.onerror = function () { say('文件读取失败', true); };
+      reader.readAsText(f, 'utf-8');
+    });
+  }
+
+  /* ---------- 启动 ---------- */
+  function boot() {
+    try { build(); } catch (e) {}
+    autoFix();
+    var raf;
+    function later() { clearTimeout(raf); raf = setTimeout(autoFix, 260); }
+    window.addEventListener('resize', later);
+    window.addEventListener('load', later);
+    if (typeof MutationObserver !== 'undefined') {
+      var busy = false;
+      var mo = new MutationObserver(function () {
+        if (busy) return;
+        busy = true;
+        setTimeout(function () { autoFix(); busy = false; }, 240);
+      });
+      mo.observe(document.body, { childList: true, subtree: true });
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+
+</script>
+<!-- WBX-JS-END -->
 </body>
 </html>

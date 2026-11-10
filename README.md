@@ -6,7 +6,7 @@
 
 - **在线预览**：https://px-pangu.github.io/mental-model-museum/
 - **仓库地址**：https://github.com/px-pangu/mental-model-museum
-- **应用文件**：`index.html`（约 49 KB，单文件，零依赖，localStorage 持久化）
+- **应用文件**：`index.html`（约 72 KB，单文件，零依赖，localStorage 持久化）
 
 ---
 
@@ -193,6 +193,17 @@ mental-model-museum/
 | 09 | [mental-model-museum](https://github.com/px-pangu/mental-model-museum) | 跨学科心智模型迁移学习 |
 | 10 | [decision-balance](https://github.com/px-pangu/decision-balance) | 保研 / 考研 / 留学 / 就业四赛道模拟 |
 | ★ | [ai-prompt-workflow](https://github.com/px-pangu/ai-prompt-workflow) | 系列总览与 10 个提示词原文 |
+
+---
+
+## 更新记录 · v2（2026-11-10）
+
+本次为**兼容式增强**：仍是单文件、零外部依赖、离线可运行，原有视觉基调、设计红线与业务数据口径均不变。
+
+- **移动端适配**：新增 760 / 640 / 520 / 480 / 420px 断点，修复窄屏横向溢出；宽表格与导航改为横向滑动，触摸目标 ≥36px，输入框字号 16px 防 iOS 自动缩放。已在 1440 / 768 / 390 / 320 四档视口验证零横向溢出。
+- **内置工具箱**（页面右下角）：页面内查找（Ctrl/⌘+K，可跨标签页定位并高亮）、自动目录跳转、字号调节（80–130%）、本地数据备份导出 / 恢复、打印 / 存 PDF、回到顶部；Alt+W 开关、Esc 关闭。工具箱仅在本地保存字号偏好，业务数据口径不变，备份文件由用户自行保管。
+- **稳定性**：修复交互链路中的脚本异常，补齐键盘焦点样式、打印样式与 `prefers-reduced-motion` 支持。
+- **回归验证**：真实浏览器多视口检查、全量按钮点击流、表单控件与备份恢复闭环均通过。
 
 ---
 
